@@ -61,6 +61,9 @@ public class Passenger {
         }
         return true;
     }
+    public boolean isContain(String sub){
+        return this.name.contains(sub);
+    }
 
     public int getPassengerId() {
         return passengerId;
@@ -96,6 +99,9 @@ public class Passenger {
 
     public String getSex() {
         return sex;
+    }
+    public boolean isSameSex(String sex){
+        return this.sex.equals(sex);
     }
 
     public void setSex(String sex) {

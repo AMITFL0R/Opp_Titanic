@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 
 public class MainPanel extends JPanel {
     private JComboBox<String> survivedComboBox;
+    private JComboBox<String> sexComboBox;
     private List<Passenger> passengers;
     private List<JTextField> rangeId;
+    private JTextField nameTextField;
 
     public MainPanel(int x, int y, int width, int height) {
         File file = new File(Constants.PATH_TO_DATA_FILE); //this is the path to the data file
@@ -31,39 +33,57 @@ public class MainPanel extends JPanel {
         JLabel minId = Helper.addLabel(this, "Min: ", this.rangeId.get(0).getX() - Constants.LABEL_WIDTH / 3, this.rangeId.get(0).getY(), Constants.LABEL_WIDTH / 3, Constants.LABEL_HEIGHT);
         JLabel maxId = Helper.addLabel(this, "Max: ", this.rangeId.get(1).getX() - Constants.LABEL_WIDTH / 3, this.rangeId.get(1).getY(), Constants.LABEL_WIDTH / 3, Constants.LABEL_HEIGHT);
         JLabel passengerLabel = Helper.addLabel(this, "Passenger ID: ", minId.getX() - Constants.LABEL_WIDTH, (minId.getY() + maxId.getY()) / 2, Constants.LABEL_WIDTH, Constants.LABEL_HEIGHT);
+        JLabel name = Helper.addLabel(this,"Name: ",Constants.MARGIN_FROM_LEFT,survivedLabel.getY()+survivedLabel.getHeight()+Constants.MARGIN_FROM_TOP*4,Constants.LABEL_WIDTH,Constants.LABEL_HEIGHT);
+        this.nameTextField=Helper.addTextField(this,name.getX()+name.getWidth(),name.getY(),Constants.TEXT_FIELD_WIDTH,Constants.TEXT_FIELD_HEIGHT);
+        JLabel sex=Helper.addLabel(this,"Sex: ",passengerLabel.getX(),name.getY(),Constants.LABEL_WIDTH,Constants.LABEL_HEIGHT);
+        this.sexComboBox=Helper.addComboBox(Constants.SEX,this,this.rangeId.get(0).getX(),sex.getY(),Constants.COMBO_BOX_WIDTH,Constants.COMBO_BOX_HEIGHT);
+
         JButton temp = Helper.addButton(this, "temp", 300, 300, 100, 50);
         temp.addActionListener((e) -> {
             byId();
+            byName();
+            bySex((String) this.sexComboBox.getSelectedItem());
         });
     }
 
     private void listeners() {
         this.survivedComboBox.addActionListener((e) -> {
+
             byPClass(this.survivedComboBox.getSelectedIndex());
         });
 
     }
 
-    private void byId() {
+    private List<Passenger> byId() {
         List<Passenger> passengerList = new ArrayList<>();
+        try {
         if (Integer.parseInt(this.rangeId.get(0).getText())>Integer.parseInt(this.rangeId.get(1).getText())&&Integer.parseInt(this.rangeId.get(1).getText())!=0){
             System.out.println("min is more than max, try again");
         }else {
-            try {
                 passengerList = this.passengers.stream().filter(Passenger -> Passenger.rangeId(Integer.parseInt(this.rangeId.get(0).getText()), Integer.parseInt(this.rangeId.get(1).getText()))).collect(Collectors.toList());
                 System.out.println(passengerList.size());
-            } catch (NumberFormatException e) {
-                System.out.println("please enter number in the id field!");
-            }
         }
-
-
+        } catch (NumberFormatException e) {
+            System.out.println("please enter number in the id field!");
+        }
+        return passengerList;
     }
 
 
     private List<Passenger> byPClass(int PClass) {
         return  this.passengers.stream().filter(Passenger::isSurvived).filter(passenger -> passenger.classSort(PClass)).collect(Collectors.toList());
     }
+    private void byName(){
+        List<Passenger> passengerList=this.passengers.stream().filter(passenger -> passenger.isContain(this.nameTextField.getText())).collect(Collectors.toList());
+        System.out.println(passengerList.size());
+    }
+
+    private void bySex(String sex){
+        List<Passenger> passengerList=this.passengers.stream().filter(passenger -> passenger.isSameSex(sex)).collect(Collectors.toList());
+        System.out.println(passengerList.size());
+
+    }
+
 
 
     private ArrayList<Passenger> readFromFile(File file) {
