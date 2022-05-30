@@ -1,17 +1,17 @@
 public class Passenger {
 
-    private int passengerId;
-    private boolean survived;
-    private int pClass;
-    private String name;
-    private String sex;
-    private double age;
-    private int sibSp;
-    private int parch;
-    private String ticket;
-    private double fare;
-    private String cabin;
-    private String embarked;
+    private  int passengerId; // מספר נוסע
+    private boolean survived; // האם שרד?
+    private int pClass;// מספר מחלקה
+    private String name;// שם הנוסע
+    private String sex;// מין הנוסע
+    private  double age;// גיל הנוסע
+    private int sibSp;// מספר אחים ואחיות
+    private  int parch; //  כמות הילדים וההורים של הנוסע שעלו על הספינה
+    private String ticket; // מספר הכרטיס
+    private double fare; // עלות הכרטיס ששילם הנוסע (בפאונדים)
+    private String cabin;// מספר התא
+    private String embarked;// הנמל בו עלה לסיפון הטיטאניק
 
     public Passenger(String[] details){
         initial(details);
@@ -49,7 +49,7 @@ public class Passenger {
     public boolean isSibSp(int numOfSibSp){
         return this.sibSp==numOfSibSp;
     }
-    public  boolean classSort(int pClass){
+    public boolean classSort(int pClass){
         if (pClass==0){
             return true;
         }
