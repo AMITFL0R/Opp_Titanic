@@ -19,6 +19,7 @@ public class Helper {
         JLabel label = new JLabel(labelText);
         Font font = new Font(Constants.KIND_OF_FONT, Font.BOLD, Constants.SIZE_FONT_LABEL);
         label.setFont(font);
+        label.setForeground(Color.white);
         label.setBounds(x, y, width, height);
         panel.add(label);
         return label;

@@ -85,14 +85,14 @@ public class Passenger {
         }
         return true;
     }
-    public boolean subCabin(String cabin){
-        return this.cabin.contains(cabin);
+    public boolean sameCabin(String cabin){
+        return this.cabin.equals(cabin);
     }
     public boolean subName(String sub){
-        return this.name.contains(sub);
+        return this.name.toLowerCase().contains(sub.toLowerCase());
     }
-    public boolean subTicket(String ticket){
-        return this.ticket.contains(ticket);
+    public boolean sameTicket(String ticket){
+        return this.ticket.equals(ticket);
     }
 
     public int getPassengerId() {
@@ -131,6 +131,9 @@ public class Passenger {
         return sex;
     }
     public boolean isSameSex(String sex){
+        if (sex.equals("All")){
+            return true;
+        }
         return this.sex.equals(sex);
     }
 
