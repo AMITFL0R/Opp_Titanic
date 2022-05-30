@@ -118,7 +118,7 @@ public class MainPanel extends JPanel {
     private List<Passenger> byEmbarked (String embarked,List<Passenger> passengers){
         return passengers.stream().filter(passenger -> passenger.embarkedSort(embarked)).collect(Collectors.toList());
     }
-    private List<Passenger> byName(List<Passenger> passengers){
+    private List<Passenger> byName (List<Passenger> passengers){
         return passengers.stream().filter(passenger -> passenger.subName(this.nameTextField.getText())).collect(Collectors.toList());
     }
 
