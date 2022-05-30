@@ -115,7 +115,7 @@ public class MainPanel extends JPanel {
     private List<Passenger> byPClass(int PClass,List<Passenger> passengers) {
         return  passengers.stream().filter(Passenger::isSurvived).filter(passenger -> passenger.classSort(PClass)).collect(Collectors.toList());
     }
-    private List<Passenger> byEmbarked(String embarked,List<Passenger> passengers){
+    private List<Passenger> byEmbarked (String embarked,List<Passenger> passengers){
         return passengers.stream().filter(passenger -> passenger.embarkedSort(embarked)).collect(Collectors.toList());
     }
     private List<Passenger> byName(List<Passenger> passengers){
@@ -125,7 +125,7 @@ public class MainPanel extends JPanel {
     private List<Passenger> bySex(String sex,List<Passenger> passengers){
         return passengers.stream().filter(passenger -> passenger.isSameSex(sex)).collect(Collectors.toList());
     }
-    private List<Passenger> bySibSp(String sibSp,List<Passenger> passengers){
+    private List<Passenger> bySibSp (String sibSp,List<Passenger> passengers){
         List<Passenger> passengerList = null;
         try {
             passengerList=passengers.stream().filter(passenger -> passenger.isSibSp(Integer.parseInt(sibSp))).collect(Collectors.toList());
@@ -171,6 +171,7 @@ public class MainPanel extends JPanel {
                 }
                 firstTime = false;
             }
+
         }
         return passengers;
     }
