@@ -43,11 +43,23 @@ public class Passenger {
             this.embarked=details[12];
         }
     }
+    public boolean isParch(int numOfParch){
+        return this.parch==numOfParch;
+    }
+    public boolean isSibSp(int numOfSibSp){
+        return this.sibSp==numOfSibSp;
+    }
     public  boolean classSort(int pClass){
         if (pClass==0){
             return true;
         }
         return this.pClass==pClass;
+    }
+    public boolean embarkedSort(String embarked){
+        if (embarked.equals("All")){
+            return true;
+        }
+        return this.embarked.equals(embarked);
     }
     public boolean rangeId(int min, int max) {
         if (min==0&&max>0){
@@ -61,8 +73,26 @@ public class Passenger {
         }
         return true;
     }
-    public boolean isContain(String sub){
+    public boolean rangeFare(double min,double max){
+        if (min==0&&max>0){
+            return this.fare<=max;
+        }else if (min>0&&max==0){
+            return this.fare>=min;
+        }else if (min>0&&max>0&&max>min){
+            return this.fare>=min&&this.fare<=max;
+        }else if (min==max&&min!=0){
+            return this.fare==max;
+        }
+        return true;
+    }
+    public boolean subCabin(String cabin){
+        return this.cabin.contains(cabin);
+    }
+    public boolean subName(String sub){
         return this.name.contains(sub);
+    }
+    public boolean subTicket(String ticket){
+        return this.ticket.contains(ticket);
     }
 
     public int getPassengerId() {
