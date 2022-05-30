@@ -171,7 +171,6 @@ public class MainPanel extends JPanel {
                 }
                 firstTime = false;
             }
-
         }
         return passengers;
     }
