@@ -11,6 +11,7 @@ public class PassengerFilter {
     private List<Passenger> passengers;
     private List<Passenger> filterPassenger;
     private String error;
+    private String topMenu;
 
 
     public String getError() {
@@ -38,11 +39,15 @@ public class PassengerFilter {
         this.filterPassenger=byCabin(cabin,this.filterPassenger);
         this.filterPassenger=byEmbarked(embarked,this.filterPassenger);
         try {
-            WriteToFile writeToFile=new WriteToFile(fileNumber,this.filterPassenger);
+            this.filterPassenger=this.filterPassenger.stream().sorted().collect(Collectors.toList());
+            WriteToFile writeToFile=new WriteToFile();
+            writeToFile.writeToExcel(fileNumber,this.filterPassenger,this.topMenu);
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println(this.filterPassenger.size());
+
+
 
     }
 
@@ -148,10 +153,14 @@ public class PassengerFilter {
             }
             boolean firstTime = true;
             while (scanner.hasNextLine()) {
-                String[] details = scanner.nextLine().split(",");
+                String line=scanner.nextLine();
+                String[] details = line.split(",");
                 if (!firstTime) {
                     Passenger passenger = new Passenger(details);
                     passengers.add(passenger);
+                }
+                if (firstTime){
+                    this.topMenu=line;
                 }
                 firstTime = false;
             }

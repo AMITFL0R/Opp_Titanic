@@ -1,5 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,16 +9,23 @@ public class WriteToFile {
 
 
 
-    public WriteToFile(int fileNumber, List<Passenger> passengers) throws IOException {
-//        List<String> passenger=passengers.stream().map(Passenger::getPassengerId).collect(Collectors.toList());
-        String[] strings={"sadas","fcgvh","retyu"};
+
+
+    public void writeToExcel(int fileNumber, List<Passenger> passengers,String topMenu) throws IOException {
+        List<String> stringListPassenger;
+        stringListPassenger=passengers.stream().map(Passenger::allDetails).collect(Collectors.toList());
         FileWriter fileWriter=new FileWriter("C:\\Users\\DELL\\OneDrive\\שולחן העבודה\\TitanicPassangers\\"+fileNumber+".csv");
-        fileWriter.write("strings.toString(),vghv");
-        fileWriter.write("\nstrings.()");
+        fileWriter.write(topMenu+"\n");
+        stringListPassenger.stream().forEach(passenger ->
+                {
+                    try {
+                        fileWriter.write(passenger+"\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
         fileWriter.close();
 
-
     }
-
-
 }

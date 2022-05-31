@@ -1,17 +1,19 @@
-public class Passenger {
+import java.util.List;
 
-    private  int passengerId; // מספר נוסע
-    private boolean survived; // האם שרד?
-    private int pClass;// מספר מחלקה
-    private String name;// שם הנוסע
-    private String sex;// מין הנוסע
-    private  double age;// גיל הנוסע
-    private int sibSp;// מספר אחים ואחיות
-    private  int parch; //  כמות הילדים וההורים של הנוסע שעלו על הספינה
-    private String ticket; // מספר הכרטיס
-    private double fare; // עלות הכרטיס ששילם הנוסע (בפאונדים)
-    private String cabin;// מספר התא
-    private String embarked;// הנמל בו עלה לסיפון הטיטאניק
+public class Passenger implements Comparable<Passenger>  {
+
+    private  int passengerId;
+    private boolean survived;
+    private int pClass;
+    private String name;
+    private String sex;
+    private  double age;
+    private int sibSp;
+    private  int parch;
+    private String ticket;
+    private double fare;
+    private String cabin;
+    private String embarked;
 
     public Passenger(String[] details){
         initial(details);
@@ -25,7 +27,7 @@ public class Passenger {
             this.survived=false;
         }
         this.pClass=Integer.valueOf(details[2]);
-        this.name=details[3]+","+details[4];
+        this.name=getFormattedName(details[3]+","+details[4]);
         this.sex=details[5];
         if (details[6].equals("")){
             this.age=0;
@@ -42,6 +44,12 @@ public class Passenger {
         }else {
             this.embarked=details[12];
         }
+    }
+
+    public String allDetails(){
+        return this.passengerId+","+this.getSurvived()+","+this.pClass+","+this.name+","+
+                this.sex+","+this.age+","+this.sibSp+","+this.parch+","+this.ticket+
+                ","+this.fare+","+this.cabin+","+this.embarked;
     }
     public boolean isParch(int numOfParch){
         return this.parch==numOfParch;
@@ -105,6 +113,12 @@ public class Passenger {
 
     public boolean isSurvived() {
         return this.survived;
+    }
+    public String getSurvived(){
+        if (this.survived){
+            return "1";
+        }
+        return "0";
     }
 
     public void setSurvived(boolean survived) {
@@ -197,16 +211,17 @@ public class Passenger {
         this.embarked = embarked;
     }
 
-    public String getFormattedName(){
-        String name=this.name;
+    public String getFormattedName(String name){
         String[] lastName=name.split(",");
         String[] firstName=lastName[1].split("\\.");
         name=firstName[1]+" "+lastName[0];
         name=name.replaceAll("\"","");
         return name;
     }
-//    public  int compareTo(){
-//
-//    }
 
+
+
+    public int compareTo(Passenger o) {
+        return this.name.compareTo(o.getName());
+    }
 }
