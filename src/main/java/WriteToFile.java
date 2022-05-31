@@ -26,6 +26,15 @@ public class WriteToFile {
                 }
         );
         fileWriter.close();
+    }
 
+    public void writeStatistics(String text){
+        try {
+            FileWriter fileWriter=new FileWriter("C:\\Users\\DELL\\OneDrive\\שולחן העבודה\\binari\\statistics.txt");
+            fileWriter.write(text);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

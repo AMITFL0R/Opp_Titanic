@@ -11,6 +11,8 @@ public class MainPanel extends JPanel {
     private ImageIcon backGround;
     private JComboBox<String> pClassComboBox;
     private JComboBox<String> sexComboBox;
+    private String topMenu;
+    private List<Passenger> passengers;
     private PassengerFilter passengerFilter;
     private List<JTextField> rangeId;
     private List<JTextField> fare;
@@ -26,6 +28,8 @@ public class MainPanel extends JPanel {
 
 
     public MainPanel(int x, int y, int width, int height) {
+        File file = new File(Constants.PATH_TO_DATA_FILE);
+        this.passengers = readFromFile(file);
         this.backGround = new ImageIcon("titanicImage.jpeg");
         this.numOfSearches = 1;
         this.setLayout(null);
@@ -101,8 +105,22 @@ public class MainPanel extends JPanel {
 
 
     }
+    private void printCopySucceeded(){
+        Thread printResult = new Thread(() -> {
+            JLabel result = Helper.addLabel(this,"Copy Succeeded!",this.getWidth() / 2 - Constants.RESULT_PRINT_WIDTH / 2, this.getHeight() * 5 / 8, Constants.RESULT_PRINT_WIDTH, Constants.RESULT_PRINT_HEIGHT);
+            result.setForeground(Color.black);
+            result.setFont(new Font("Ariel", Font.BOLD, Constants.RESULT_FONT_SIZE));
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            result.setVisible(false);
+        });
+        printResult.start();
+    }
 
-    private void print(String printOnBoard) {
+    public void print(String printOnBoard) {
         new Thread(() -> {
             JLabel print = Helper.addLabel(this, printOnBoard, 400, 400, 300, 50);
             repaint();
@@ -116,9 +134,9 @@ public class MainPanel extends JPanel {
     }
 
     private void searchButton() {
-        this.search = Helper.addButton(this, "Search", this.getWidth() - Constants.BUTTON_WIDTH - Constants.MARGIN_FROM_RIGHT/2, this.getHeight() * 5 / 7, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
+        this.search = Helper.addButton(this, "Search", this.getWidth() - Constants.BUTTON_WIDTH - Constants.MARGIN_FROM_RIGHT / 2, this.getHeight() * 5 / 7, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
         this.search.addActionListener((e) -> {
-            this.passengerFilter = new PassengerFilter(this.pClassComboBox.getSelectedIndex(),
+            this.passengerFilter = new PassengerFilter(this.passengers, this.topMenu, this.pClassComboBox.getSelectedIndex(),
                     this.rangeId.get(0).getText(), this.rangeId.get(1).getText(),
                     this.nameTextField.getText(), (String) this.sexComboBox.getSelectedItem(),
                     this.sibSp.getText(), this.parch.getText(), this.ticket.getText(),
@@ -130,9 +148,40 @@ public class MainPanel extends JPanel {
 
         });
     }
-    private void statisticsButton(){
-        this.statistics=Helper.addButton(this,"Statistics file",this.search.getX()-(int) (Constants.BUTTON_WIDTH*1.5),this.search.getY(), (int) (Constants.BUTTON_WIDTH*1.5),Constants.BUTTON_HEIGHT);
 
+    private void statisticsButton() {
+        this.statistics = Helper.addButton(this, "Statistics file", this.search.getX() - (int) (Constants.BUTTON_WIDTH * 1.5), this.search.getY(), (int) (Constants.BUTTON_WIDTH * 1.5), Constants.BUTTON_HEIGHT);
+        this.statistics.addActionListener((e) -> {
+            Statistics statistics=new Statistics(this.passengers);
+            printCopySucceeded();
+        });
+    }
+
+    private ArrayList<Passenger> readFromFile(File file) {
+        ArrayList<Passenger> passengers = new ArrayList<>();
+        if (file.exists()) {
+            Scanner scanner = null;
+            try {
+                scanner = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            boolean firstTime = true;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] details = line.split(",");
+                if (!firstTime) {
+                    Passenger passenger = new Passenger(details);
+                    passengers.add(passenger);
+                }
+                if (firstTime) {
+                    this.topMenu = line;
+                }
+                firstTime = false;
+            }
+
+        }
+        return passengers;
     }
 
     public void paintComponent(Graphics graphics) {

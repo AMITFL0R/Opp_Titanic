@@ -93,6 +93,19 @@ public class Passenger implements Comparable<Passenger>  {
         }
         return true;
     }
+    public boolean rangeAge(int min,int max){
+        if (min>50){
+            return true;
+        }
+        return this.age>=min&&this.age<=max;
+    }
+
+    public boolean familyMember(int members){
+        if (members==0){
+            return this.parch+this.sibSp==members;
+        }
+        return this.parch+this.sibSp>=members;
+    }
     public boolean sameCabin(String cabin){
         return this.cabin.equals(cabin);
     }
