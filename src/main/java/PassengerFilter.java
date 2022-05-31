@@ -57,21 +57,8 @@ public class PassengerFilter {
 
     public List<Passenger> byId(String min, String max, List<Passenger> passengers) {
         List<Passenger> passengerList = new ArrayList<>();
-        try {
-            if (Integer.parseInt(min) > Integer.parseInt(max) && Integer.parseInt(max) != 0) {
-                System.out.println("min is more than max, try again");
-                this.error = "min is more than max, try again";
-            } else if (Integer.parseInt(min) < 0 || Integer.parseInt(max) < 0) {
-                System.out.println("Cannot get negative number");
-            } else if (Integer.parseInt(min) > passengers.size() || Integer.parseInt(max) > passengers.size()) {
-                System.out.println("min or max cannot be biggest than list");
-            } else {
-                passengerList = passengers.stream().filter(Passenger -> Passenger.rangeId(Integer.parseInt(min), Integer.parseInt(max))).collect(Collectors.toList());
+        passengerList = passengers.stream().filter(Passenger -> Passenger.rangeId(Integer.parseInt(min), Integer.parseInt(max))).collect(Collectors.toList());
 
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("please enter number in the id field!");
-        }
         return passengerList;
     }
 
@@ -88,12 +75,8 @@ public class PassengerFilter {
         if (isEmptyField(sibSp)) {
             return passengers;
         }
-        try {
-            passengerList = passengers.stream().filter(passenger -> passenger.isSibSp(Integer.parseInt(sibSp))).collect(Collectors.toList());
-        } catch (NumberFormatException e) {
-            System.out.println("Enter number please");
-            return passengers;
-        }
+        passengerList = passengers.stream().filter(passenger -> passenger.isSibSp(Integer.parseInt(sibSp))).collect(Collectors.toList());
+
         return passengerList;
     }
 
@@ -102,12 +85,8 @@ public class PassengerFilter {
         if (isEmptyField(parch)) {
             return passengers;
         }
-        try {
-            passengerList = passengers.stream().filter(passenger -> passenger.isParch(Integer.parseInt(parch))).collect(Collectors.toList());
-        } catch (NumberFormatException e) {
-            System.out.println("Enter number please");
-            return passengers;
-        }
+        passengerList = passengers.stream().filter(passenger -> passenger.isParch(Integer.parseInt(parch))).collect(Collectors.toList());
+
         return passengerList;
     }
 
@@ -120,15 +99,7 @@ public class PassengerFilter {
 
     public List<Passenger> byFare(String min, String max, List<Passenger> passengers) {
         List<Passenger> passengerList = new ArrayList<>();
-        try {
-            if (Double.parseDouble(min) > Double.parseDouble(max) && Double.parseDouble(max) != 0) {
-                System.out.println("min is more than max, try again");
-            } else {
-                passengerList = passengers.stream().filter(Passenger -> Passenger.rangeFare(Double.parseDouble(min), Double.parseDouble(max))).collect(Collectors.toList());
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("please enter number in the fare Field!");
-        }
+        passengerList = passengers.stream().filter(Passenger -> Passenger.rangeFare(Double.parseDouble(min), Double.parseDouble(max))).collect(Collectors.toList());
         return passengerList;
     }
 

@@ -87,6 +87,19 @@ public class MainPanel extends JPanel {
 
     }
 
+    private boolean isNumber(JTextField textField){
+        if (textField.getText().equals("")){
+            return true;
+        }
+        try {
+            int temp=Integer.parseInt(textField.getText());
+        } catch (NumberFormatException e) {
+            print("Enter number please!");
+            return false;
+        }
+        return true;
+    }
+
     private void printFilters(List<Passenger> passengers) {
         List<Passenger> survived = passengers.stream().filter(Passenger::isSurvived).collect(Collectors.toList());
         Thread printResult = new Thread(() -> {
@@ -135,18 +148,39 @@ public class MainPanel extends JPanel {
 
     private void searchButton() {
         this.search = Helper.addButton(this, "Search", this.getWidth() - Constants.BUTTON_WIDTH - Constants.MARGIN_FROM_RIGHT / 2, this.getHeight() * 5 / 7, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
-        this.search.addActionListener((e) -> {
-            this.passengerFilter = new PassengerFilter(this.passengers, this.topMenu, this.pClassComboBox.getSelectedIndex(),
-                    this.rangeId.get(0).getText(), this.rangeId.get(1).getText(),
-                    this.nameTextField.getText(), (String) this.sexComboBox.getSelectedItem(),
-                    this.sibSp.getText(), this.parch.getText(), this.ticket.getText(),
-                    this.fare.get(0).getText(), this.fare.get(1).getText(), this.cabin.getText(),
-                    (String) this.embarkedComboBox.getSelectedItem(), this.numOfSearches);
-            this.numOfSearches++;
-            printFilters(this.passengerFilter.getFilterPassenger());
+
+            this.search.addActionListener((e) -> {
+               if (validIdOrFare(this.fare)&&validIdOrFare(this.rangeId)&&
+                       isNumber(this.rangeId.get(1))&&isNumber(this.rangeId.get(0))&&
+               isNumber(this.fare.get(0))&&isNumber(this.fare.get(1))&&
+               isNumber(this.parch)&&isNumber(this.sibSp)){
+                   this.passengerFilter = new PassengerFilter(this.passengers, this.topMenu, this.pClassComboBox.getSelectedIndex(),
+                           this.rangeId.get(0).getText(), this.rangeId.get(1).getText(),
+                           this.nameTextField.getText(), (String) this.sexComboBox.getSelectedItem(),
+                           this.sibSp.getText(), this.parch.getText(), this.ticket.getText(),
+                           this.fare.get(0).getText(), this.fare.get(1).getText(), this.cabin.getText(),
+                           (String) this.embarkedComboBox.getSelectedItem(), this.numOfSearches);
+                   this.numOfSearches++;
+                   printFilters(this.passengerFilter.getFilterPassenger());
+               }
 
 
-        });
+
+
+            });
+
+
+    }
+
+    private boolean validIdOrFare(List<JTextField> textFields){
+        if (Integer.parseInt(textFields.get(0).getText()) > Integer.parseInt(textFields.get(1).getText()) && Integer.parseInt(textFields.get(1).getText()) != 0){
+            print("min is more than max, try again");
+            return false;
+        }else if (Integer.parseInt(textFields.get(0).getText()) < 0 || Integer.parseInt(textFields.get(1).getText()) < 0){
+            print("Cannot get negative number");
+            return false;
+        }
+        return true;
     }
 
     private void statisticsButton() {
