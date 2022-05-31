@@ -1,118 +1,129 @@
 import java.util.List;
 
-public class Passenger implements Comparable<Passenger>  {
+public class Passenger implements Comparable<Passenger> {
 
-    private  int passengerId;
+    private int passengerId;
     private boolean survived;
     private int pClass;
     private String name;
     private String sex;
-    private  double age;
+    private double age;
     private int sibSp;
-    private  int parch;
+    private int parch;
     private String ticket;
     private double fare;
     private String cabin;
     private String embarked;
 
-    public Passenger(String[] details){
+    public Passenger(String[] details) {
         initial(details);
 
     }
-    private void initial(String[] details){
-        this.passengerId=Integer.valueOf(details[0]);
-        if (details[1].equals("1")){
-            this.survived=true;
-        }else {
-            this.survived=false;
+
+    private void initial(String[] details) {
+        this.passengerId = Integer.valueOf(details[0]);
+        if (details[1].equals("1")) {
+            this.survived = true;
+        } else {
+            this.survived = false;
         }
-        this.pClass=Integer.valueOf(details[2]);
-        this.name=getFormattedName(details[3]+","+details[4]);
-        this.sex=details[5];
-        if (details[6].equals("")){
-            this.age=0;
-        }else {
-            this.age=Double.valueOf(details[6]);
+        this.pClass = Integer.valueOf(details[2]);
+        this.name = getFormattedName(details[3] + "," + details[4]);
+        this.sex = details[5];
+        if (details[6].equals("")) {
+            this.age = 0;
+        } else {
+            this.age = Double.valueOf(details[6]);
         }
-        this.sibSp=Integer.valueOf(details[7]);
-        this.parch=Integer.valueOf(details[8]);
-        this.ticket=details[9];
-        this.fare=Double.valueOf(details[10]);
-        this.cabin=details[11];
-        if (details.length<13){
-            this.embarked="";
-        }else {
-            this.embarked=details[12];
+        this.sibSp = Integer.valueOf(details[7]);
+        this.parch = Integer.valueOf(details[8]);
+        this.ticket = details[9];
+        this.fare = Double.valueOf(details[10]);
+        this.cabin = details[11];
+        if (details.length < 13) {
+            this.embarked = "";
+        } else {
+            this.embarked = details[12];
         }
     }
 
-    public String allDetails(){
-        return this.passengerId+","+this.getSurvived()+","+this.pClass+","+this.name+","+
-                this.sex+","+this.age+","+this.sibSp+","+this.parch+","+this.ticket+
-                ","+this.fare+","+this.cabin+","+this.embarked;
+    public String allDetails() {
+        return this.passengerId + "," + this.getSurvived() + "," + this.pClass + "," + this.name + "," +
+                this.sex + "," + this.age + "," + this.sibSp + "," + this.parch + "," + this.ticket +
+                "," + this.fare + "," + this.cabin + "," + this.embarked;
     }
-    public boolean isParch(int numOfParch){
-        return this.parch==numOfParch;
+
+    public boolean isParch(int numOfParch) {
+        return this.parch == numOfParch;
     }
-    public boolean isSibSp(int numOfSibSp){
-        return this.sibSp==numOfSibSp;
+
+    public boolean isSibSp(int numOfSibSp) {
+        return this.sibSp == numOfSibSp;
     }
-    public boolean classSort(int pClass){
-        if (pClass==0){
+
+    public boolean classSort(int pClass) {
+        if (pClass == 0) {
             return true;
         }
-        return this.pClass==pClass;
+        return this.pClass == pClass;
     }
-    public boolean embarkedSort(String embarked){
-        if (embarked.equals("All")){
+
+    public boolean embarkedSort(String embarked) {
+        if (embarked.equals("All")) {
             return true;
         }
         return this.embarked.equals(embarked);
     }
+
     public boolean rangeId(int min, int max) {
-        if (min==0&&max>0){
-            return this.passengerId<=max;
-        }else if (min>0&&max==0){
-            return this.passengerId>=min;
-        }else if (min>0&&max>0&&max>min){
-            return this.passengerId>=min&&this.passengerId<=max;
-        }else if (min==max&&min!=0){
-            return this.passengerId==max;
+        if (min == 0 && max > 0) {
+            return this.passengerId <= max;
+        } else if (min > 0 && max == 0) {
+            return this.passengerId >= min;
+        } else if (min > 0 && max > 0 && max > min) {
+            return this.passengerId >= min && this.passengerId <= max;
+        } else if (min == max && min != 0) {
+            return this.passengerId == max;
         }
         return true;
-    }
-    public boolean rangeFare(double min,double max){
-        if (min==0&&max>0){
-            return this.fare<=max;
-        }else if (min>0&&max==0){
-            return this.fare>=min;
-        }else if (min>0&&max>0&&max>min){
-            return this.fare>=min&&this.fare<=max;
-        }else if (min==max&&min!=0){
-            return this.fare==max;
-        }
-        return true;
-    }
-    public boolean rangeAge(int min,int max){
-        if (min>50){
-            return true;
-        }
-        return this.age>=min&&this.age<=max;
     }
 
-    public boolean familyMember(int members){
-        if (members==0){
-            return this.parch+this.sibSp==members;
+    public boolean rangeFare(double min, double max) {
+        if (min == 0 && max > 0) {
+            return this.fare <= max;
+        } else if (min > 0 && max == 0) {
+            return this.fare >= min;
+        } else if (min > 0 && max > 0 && max > min) {
+            return this.fare >= min && this.fare <= max;
+        } else if (min == max && min != 0) {
+            return this.fare == max;
         }
-        return this.parch+this.sibSp>=members;
+        return true;
     }
-    public boolean sameCabin(String cabin){
+
+    public boolean rangeAge(int min, int max) {
+        if (min > 50) {
+            return true;
+        }
+        return this.age >= min && this.age <= max;
+    }
+
+    public boolean familyMember(int members) {
+        if (members == 0) {
+            return this.parch + this.sibSp == members;
+        }
+        return this.parch + this.sibSp >= members;
+    }
+
+    public boolean sameCabin(String cabin) {
         return this.cabin.equals(cabin);
     }
-    public boolean subName(String sub){
+
+    public boolean subName(String sub) {
         return this.name.toLowerCase().contains(sub.toLowerCase());
     }
-    public boolean sameTicket(String ticket){
+
+    public boolean sameTicket(String ticket) {
         return this.ticket.equals(ticket);
     }
 
@@ -127,8 +138,9 @@ public class Passenger implements Comparable<Passenger>  {
     public boolean isSurvived() {
         return this.survived;
     }
-    public String getSurvived(){
-        if (this.survived){
+
+    public String getSurvived() {
+        if (this.survived) {
             return "1";
         }
         return "0";
@@ -157,8 +169,9 @@ public class Passenger implements Comparable<Passenger>  {
     public String getSex() {
         return sex;
     }
-    public boolean isSameSex(String sex){
-        if (sex.equals("All")){
+
+    public boolean isSameSex(String sex) {
+        if (sex.equals("All")) {
             return true;
         }
         return this.sex.equals(sex);
@@ -224,14 +237,13 @@ public class Passenger implements Comparable<Passenger>  {
         this.embarked = embarked;
     }
 
-    public String getFormattedName(String name){
-        String[] lastName=name.split(",");
-        String[] firstName=lastName[1].split("\\.");
-        name=firstName[1]+" "+lastName[0];
-        name=name.replaceAll("\"","");
+    public String getFormattedName(String name) {
+        String[] lastName = name.split(",");
+        String[] firstName = lastName[1].split("\\.");
+        name = firstName[1] + " " + lastName[0];
+        name = name.replaceAll("\"", "");
         return name;
     }
-
 
 
     public int compareTo(Passenger o) {

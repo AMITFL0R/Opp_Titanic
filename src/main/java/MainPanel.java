@@ -87,12 +87,12 @@ public class MainPanel extends JPanel {
 
     }
 
-    private boolean isNumber(JTextField textField){
-        if (textField.getText().equals("")){
+    private boolean isNumber(JTextField textField) {
+        if (textField.getText().equals("")) {
             return true;
         }
         try {
-            int temp=Integer.parseInt(textField.getText());
+            int temp = Integer.parseInt(textField.getText());
         } catch (NumberFormatException e) {
             print("Enter number please!");
             return false;
@@ -118,9 +118,10 @@ public class MainPanel extends JPanel {
 
 
     }
-    private void printCopySucceeded(){
+
+    private void printCopySucceeded() {
         Thread printResult = new Thread(() -> {
-            JLabel result = Helper.addLabel(this,"Copy Succeeded!",this.getWidth() / 2 - Constants.RESULT_PRINT_WIDTH / 2, this.getHeight() * 5 / 8, Constants.RESULT_PRINT_WIDTH, Constants.RESULT_PRINT_HEIGHT);
+            JLabel result = Helper.addLabel(this, "Copy Succeeded!", this.getWidth() / 2 - Constants.RESULT_PRINT_WIDTH / 2, this.getHeight() * 4 / 8, Constants.RESULT_PRINT_WIDTH, Constants.RESULT_PRINT_HEIGHT);
             result.setForeground(Color.black);
             result.setFont(new Font("Ariel", Font.BOLD, Constants.RESULT_FONT_SIZE));
             try {
@@ -149,34 +150,32 @@ public class MainPanel extends JPanel {
     private void searchButton() {
         this.search = Helper.addButton(this, "Search", this.getWidth() - Constants.BUTTON_WIDTH - Constants.MARGIN_FROM_RIGHT / 2, this.getHeight() * 5 / 7, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
 
-            this.search.addActionListener((e) -> {
-               if (validIdOrFare(this.fare)&&validIdOrFare(this.rangeId)&&
-                       isNumber(this.rangeId.get(1))&&isNumber(this.rangeId.get(0))&&
-               isNumber(this.fare.get(0))&&isNumber(this.fare.get(1))&&
-               isNumber(this.parch)&&isNumber(this.sibSp)){
-                   this.passengerFilter = new PassengerFilter(this.passengers, this.topMenu, this.pClassComboBox.getSelectedIndex(),
-                           this.rangeId.get(0).getText(), this.rangeId.get(1).getText(),
-                           this.nameTextField.getText(), (String) this.sexComboBox.getSelectedItem(),
-                           this.sibSp.getText(), this.parch.getText(), this.ticket.getText(),
-                           this.fare.get(0).getText(), this.fare.get(1).getText(), this.cabin.getText(),
-                           (String) this.embarkedComboBox.getSelectedItem(), this.numOfSearches);
-                   this.numOfSearches++;
-                   printFilters(this.passengerFilter.getFilterPassenger());
-               }
+        this.search.addActionListener((e) -> {
+            if (validIdOrFare(this.fare) && validIdOrFare(this.rangeId) &&
+                    isNumber(this.rangeId.get(1)) && isNumber(this.rangeId.get(0)) &&
+                    isNumber(this.fare.get(0)) && isNumber(this.fare.get(1)) &&
+                    isNumber(this.parch) && isNumber(this.sibSp)) {
+                this.passengerFilter = new PassengerFilter(this.passengers, this.topMenu, this.pClassComboBox.getSelectedIndex(),
+                        this.rangeId.get(0).getText(), this.rangeId.get(1).getText(),
+                        this.nameTextField.getText(), (String) this.sexComboBox.getSelectedItem(),
+                        this.sibSp.getText(), this.parch.getText(), this.ticket.getText(),
+                        this.fare.get(0).getText(), this.fare.get(1).getText(), this.cabin.getText(),
+                        (String) this.embarkedComboBox.getSelectedItem(), this.numOfSearches);
+                this.numOfSearches++;
+                printFilters(this.passengerFilter.getFilterPassenger());
+            }
 
 
-
-
-            });
+        });
 
 
     }
 
-    private boolean validIdOrFare(List<JTextField> textFields){
-        if (Integer.parseInt(textFields.get(0).getText()) > Integer.parseInt(textFields.get(1).getText()) && Integer.parseInt(textFields.get(1).getText()) != 0){
+    private boolean validIdOrFare(List<JTextField> textFields) {
+        if (Integer.parseInt(textFields.get(0).getText()) > Integer.parseInt(textFields.get(1).getText()) && Integer.parseInt(textFields.get(1).getText()) != 0) {
             print("min is more than max, try again");
             return false;
-        }else if (Integer.parseInt(textFields.get(0).getText()) < 0 || Integer.parseInt(textFields.get(1).getText()) < 0){
+        } else if (Integer.parseInt(textFields.get(0).getText()) < 0 || Integer.parseInt(textFields.get(1).getText()) < 0) {
             print("Cannot get negative number");
             return false;
         }
@@ -186,7 +185,7 @@ public class MainPanel extends JPanel {
     private void statisticsButton() {
         this.statistics = Helper.addButton(this, "Statistics file", this.search.getX() - (int) (Constants.BUTTON_WIDTH * 1.5), this.search.getY(), (int) (Constants.BUTTON_WIDTH * 1.5), Constants.BUTTON_HEIGHT);
         this.statistics.addActionListener((e) -> {
-            Statistics statistics=new Statistics(this.passengers);
+            Statistics statistics = new Statistics(this.passengers);
             printCopySucceeded();
         });
     }

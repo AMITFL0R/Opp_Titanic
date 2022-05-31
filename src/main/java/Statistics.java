@@ -10,7 +10,7 @@ public class Statistics {
         WriteToFile writeToFile = new WriteToFile();
         writeToFile.writeStatistics(survivedByClass(passengers) + "\n" + survivedBySex(passengers) + "\n" +
                 survivedByAges(passengers) + "\n" + survivedByFamily(passengers) + "\n" +
-                survivedByFare(passengers)+"\n"+survivedByEmbarked(passengers));
+                survivedByFare(passengers) + "\n" + survivedByEmbarked(passengers));
 
 
     }
@@ -92,13 +92,13 @@ public class Statistics {
         return text;
     }
 
-    private  String survivedByEmbarked(List<Passenger>passengers){
-        String text="Survived by embarked: \n";
+    private String survivedByEmbarked(List<Passenger> passengers) {
+        String text = "Survived by embarked: \n";
         for (int i = 1; i < Constants.EMBARKED_OPTION.length; i++) {
-            int finalI=i;
-            text+="Embarked "+Constants.EMBARKED_OPTION[i]+"\n";
-            List<Passenger> passengers1=passengers.stream().filter(passenger ->passenger.embarkedSort(Constants.EMBARKED_OPTION[finalI])).collect(Collectors.toList());
-            text+=survivedPercent(passengers1);
+            int finalI = i;
+            text += "Embarked " + Constants.EMBARKED_OPTION[i] + "\n";
+            List<Passenger> passengers1 = passengers.stream().filter(passenger -> passenger.embarkedSort(Constants.EMBARKED_OPTION[finalI])).collect(Collectors.toList());
+            text += survivedPercent(passengers1);
         }
         return text;
     }

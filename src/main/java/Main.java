@@ -10,7 +10,7 @@ class Main extends JFrame {
     }
 
     public Main() {
-        this.setTitle("Titanic Passengers Data");
+        this.setTitle("Titanic Passengers Data by AIUA");
         this.setLayout(null);
         this.setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

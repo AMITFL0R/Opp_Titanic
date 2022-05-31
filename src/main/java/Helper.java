@@ -4,7 +4,6 @@ import java.awt.*;
 public class Helper {
 
 
-
     public static JButton addButton(JPanel panel, String buttonText, int x, int y, int width, int height) {
         JButton button = new JButton(buttonText);
         Font font = new Font(Constants.KIND_OF_FONT, Font.BOLD, Constants.FONT_SIZE_BUTTON);
@@ -15,7 +14,7 @@ public class Helper {
         return button;
     }
 
-    public static JLabel addLabel(JPanel panel,String labelText, int x, int y, int width, int height) {
+    public static JLabel addLabel(JPanel panel, String labelText, int x, int y, int width, int height) {
         JLabel label = new JLabel(labelText);
         Font font = new Font(Constants.KIND_OF_FONT, Font.BOLD, Constants.SIZE_FONT_LABEL);
         label.setFont(font);
@@ -25,7 +24,7 @@ public class Helper {
         return label;
     }
 
-    public static JTextField addTextField(JPanel panel,int x, int y, int width, int height) {
+    public static JTextField addTextField(JPanel panel, int x, int y, int width, int height) {
         JTextField textField = new JTextField();
         textField.setBounds(x, y, width, height);
         Font font = new Font(Constants.KIND_OF_FONT, Font.BOLD, Constants.SIZE_FONT_TEXT_FIELD);
@@ -34,9 +33,9 @@ public class Helper {
         return textField;
     }
 
-    public static JComboBox addComboBox(Object[] list,JPanel panel,int x, int y, int width, int height){
-        JComboBox comboBox=new JComboBox(list);
-        comboBox.setBounds(x,y,width,height);
+    public static JComboBox addComboBox(Object[] list, JPanel panel, int x, int y, int width, int height) {
+        JComboBox comboBox = new JComboBox(list);
+        comboBox.setBounds(x, y, width, height);
         panel.add(comboBox);
         return comboBox;
     }
