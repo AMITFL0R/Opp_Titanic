@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,27 +9,48 @@ import java.util.stream.Collectors;
 public class PassengerFilter {
 
     private List<Passenger> passengers;
+    private List<Passenger> filterPassenger;
+    private String error;
 
-    public PassengerFilter(int pClass,String minId,String maxId,String name,String sex,
-                           String sibSp,String parch,String ticket,String minFare,
-                           String maxFare,String cabin,String embarked){
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public PassengerFilter(int pClass, String minId, String maxId, String name, String sex,
+                           String sibSp, String parch, String ticket, String minFare,
+                           String maxFare, String cabin, String embarked,int fileNumber){
 
         File file = new File(Constants.PATH_TO_DATA_FILE);
         this.passengers=readFromFile(file);
-        List<Passenger> filterPassenger=byPClass(pClass,this.passengers);
-        filterPassenger=byId(minId,maxId,filterPassenger);
-        filterPassenger=byName(name,filterPassenger);
-        filterPassenger=bySex(sex,filterPassenger);
-        filterPassenger=bySibSp(sibSp,filterPassenger);
-        filterPassenger=byParch(parch,filterPassenger);
-        filterPassenger=byTicket(ticket,filterPassenger);
-        filterPassenger=byFare(minFare,maxFare,filterPassenger);
-        filterPassenger=byCabin(cabin,filterPassenger);
-        filterPassenger=byEmbarked(embarked,filterPassenger);
-        System.out.println(filterPassenger.size());
+        this.filterPassenger=byPClass(pClass,this.passengers);
+        this.filterPassenger=byId(minId,maxId,this.filterPassenger);
+        this.filterPassenger=byName(name,this.filterPassenger);
+        this.filterPassenger=bySex(sex,this.filterPassenger);
+        this.filterPassenger=bySibSp(sibSp,this.filterPassenger);
+        this.filterPassenger=byParch(parch,this.filterPassenger);
+        this.filterPassenger=byTicket(ticket,this.filterPassenger);
+        this.filterPassenger=byFare(minFare,maxFare,this.filterPassenger);
+        this.filterPassenger=byCabin(cabin,this.filterPassenger);
+        this.filterPassenger=byEmbarked(embarked,this.filterPassenger);
+        try {
+            WriteToFile writeToFile=new WriteToFile(fileNumber,this.filterPassenger);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(this.filterPassenger.size());
+
     }
 
-    private List<Passenger> byPClass(int PClass,List<Passenger>passengers) {
+    public List<Passenger> getFilterPassenger() {
+        return filterPassenger;
+    }
+
+    private List<Passenger> byPClass(int PClass, List<Passenger>passengers) {
         return  passengers.stream().filter(passenger -> passenger.classSort(PClass)).collect(Collectors.toList());
     }
     private List<Passenger> byId(String min,String max,List<Passenger> passengers) {
@@ -36,6 +58,7 @@ public class PassengerFilter {
         try {
             if (Integer.parseInt(min)>Integer.parseInt(max)&&Integer.parseInt(max)!=0){
                 System.out.println("min is more than max, try again");
+                this.error="min is more than max, try again";
             }else if (Integer.parseInt(min)<0||Integer.parseInt(max)<0){
                 System.out.println("Cannot get negative number");
             } else if (Integer.parseInt(min)>passengers.size()||Integer.parseInt(max)>passengers.size()){
@@ -136,4 +159,5 @@ public class PassengerFilter {
         }
         return passengers;
     }
+
 }

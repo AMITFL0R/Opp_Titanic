@@ -20,9 +20,13 @@ public class MainPanel extends JPanel {
     private JTextField ticket;
     private JTextField cabin;
     private JComboBox<String> embarkedComboBox;
+    private JButton search;
+    private int numOfSearches;
+
 
     public MainPanel(int x, int y, int width, int height) {
         this.backGround = new ImageIcon("titanicImage.jpeg");
+        this.numOfSearches=1;
         this.setLayout(null);
         this.setBounds(x, y, width, height);
         mainView();
@@ -74,15 +78,54 @@ public class MainPanel extends JPanel {
         JLabel embarked=Helper.addLabel(this,"Embarked: ",fare.getX(),cabin.getY(),Constants.LABEL_WIDTH,Constants.LABEL_HEIGHT);
         this.embarkedComboBox =Helper.addComboBox(Constants.EMBARKED_OPTION,this,this.parch.getX(),embarked.getY(),Constants.COMBO_BOX_WIDTH,Constants.COMBO_BOX_HEIGHT);
 
-        JButton temp = Helper.addButton(this, "Search", this.getWidth()-Constants.BUTTON_WIDTH-Constants.MARGIN_FROM_RIGHT, this.getHeight()*5/7, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
-        temp.addActionListener((e) -> {
+        this.search = Helper.addButton(this, "Search", this.getWidth()-Constants.BUTTON_WIDTH-Constants.MARGIN_FROM_RIGHT, this.getHeight()*5/7, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
+
+        this.search.addActionListener((e) -> {
             this.passengerFilter=new PassengerFilter(this.pClassComboBox.getSelectedIndex(),
                     this.rangeId.get(0).getText(),this.rangeId.get(1).getText(),
                     this.nameTextField.getText(),(String) this.sexComboBox.getSelectedItem(),
                     this.sibSp.getText(),this.parch.getText(),this.ticket.getText(),
                     this.fare.get(0).getText(),this.fare.get(1).getText(),this.cabin.getText(),
-                    (String) this.embarkedComboBox.getSelectedItem());
+                    (String) this.embarkedComboBox.getSelectedItem(),this.numOfSearches);
+            this.numOfSearches++;
+            printFilters(this.passengerFilter.getFilterPassenger());
+
+
         });
+    }
+    private void printFilters(List<Passenger> passengers){
+        List<Passenger> survived=passengers.stream().filter(Passenger::isSurvived).collect(Collectors.toList());
+        Thread printResult=new Thread(()->{
+            JLabel result=Helper.addLabel(this,"Total Row: "+passengers.size()+"("+survived.size()+" survived"+","+(passengers.size()-survived.size())+" did not)",
+                    this.getWidth()/2-Constants.RESULT_PRINT_WIDTH/2,this.getHeight()*5/8,Constants.RESULT_PRINT_WIDTH,Constants.RESULT_PRINT_HEIGHT);
+            result.setForeground(Color.black);
+            result.setFont(new Font("Ariel",Font.BOLD,Constants.RESULT_FONT_SIZE));
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            result.setVisible(false);
+        });
+        printResult.start();
+
+
+
+
+
+
+    }
+    private void print(String printOnBoard) {
+        new Thread(() -> {
+            JLabel print = Helper.addLabel(this, printOnBoard, 400,400,300,50);
+            repaint();
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            print.setVisible(false);
+        }).start();
     }
 
     public void paintComponent(Graphics graphics) {
