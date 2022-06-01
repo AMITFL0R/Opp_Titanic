@@ -1,30 +1,15 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class PassengerFilter {
 
-
     private List<Passenger> filterPassenger;
-    private String error;
-
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
 
     public PassengerFilter(List<Passenger> passengers, String topMenu, int pClass, String minId, String maxId, String name, String sex,
                            String sibSp, String parch, String ticket, String minFare,
                            String maxFare, String cabin, String embarked, int fileNumber) {
-
 
         this.filterPassenger = byPClass(pClass, passengers);
         this.filterPassenger = byId(minId, maxId, this.filterPassenger);
@@ -43,12 +28,10 @@ public class PassengerFilter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(this.filterPassenger.size());
-
     }
 
     public List<Passenger> getFilterPassenger() {
-        return filterPassenger;
+        return this.filterPassenger;
     }
 
     public List<Passenger> byPClass(int PClass, List<Passenger> passengers) {
@@ -56,10 +39,7 @@ public class PassengerFilter {
     }
 
     public List<Passenger> byId(String min, String max, List<Passenger> passengers) {
-        List<Passenger> passengerList = new ArrayList<>();
-        passengerList = passengers.stream().filter(Passenger -> Passenger.rangeId(Integer.parseInt(min), Integer.parseInt(max))).collect(Collectors.toList());
-
-        return passengerList;
+        return passengers.stream().filter(Passenger -> Passenger.rangeId(Integer.parseInt(min), Integer.parseInt(max))).collect(Collectors.toList());
     }
 
     public List<Passenger> byName(String name, List<Passenger> passengers) {
@@ -71,23 +51,17 @@ public class PassengerFilter {
     }
 
     public List<Passenger> bySibSp(String sibSp, List<Passenger> passengers) {
-        List<Passenger> passengerList = null;
         if (isEmptyField(sibSp)) {
             return passengers;
         }
-        passengerList = passengers.stream().filter(passenger -> passenger.isSibSp(Integer.parseInt(sibSp))).collect(Collectors.toList());
-
-        return passengerList;
+        return passengers.stream().filter(passenger -> passenger.isSibSp(Integer.parseInt(sibSp))).collect(Collectors.toList());
     }
 
     public List<Passenger> byParch(String parch, List<Passenger> passengers) {
-        List<Passenger> passengerList = null;
         if (isEmptyField(parch)) {
             return passengers;
         }
-        passengerList = passengers.stream().filter(passenger -> passenger.isParch(Integer.parseInt(parch))).collect(Collectors.toList());
-
-        return passengerList;
+        return passengers.stream().filter(passenger -> passenger.isParch(Integer.parseInt(parch))).collect(Collectors.toList());
     }
 
     public List<Passenger> byTicket(String ticket, List<Passenger> passengers) {
@@ -98,13 +72,11 @@ public class PassengerFilter {
     }
 
     public List<Passenger> byFare(String min, String max, List<Passenger> passengers) {
-        List<Passenger> passengerList = new ArrayList<>();
-        passengerList = passengers.stream().filter(Passenger -> Passenger.rangeFare(Double.parseDouble(min), Double.parseDouble(max))).collect(Collectors.toList());
-        return passengerList;
+        return passengers.stream().filter(Passenger -> Passenger.rangeFare(Double.parseDouble(min), Double.parseDouble(max))).collect(Collectors.toList());
     }
 
     public List<Passenger> byCabin(String cabin, List<Passenger> passengers) {
-        if (cabin.equals("null")) {
+        if (cabin.equals(Constants.INITIAL_NULL)) {
             return passengers;
         }
         return passengers.stream().filter(passenger -> passenger.sameCabin(cabin)).collect(Collectors.toList());
@@ -114,10 +86,8 @@ public class PassengerFilter {
         return passengers.stream().filter(passenger -> passenger.embarkedSort(embarked)).collect(Collectors.toList());
     }
 
-
     private boolean isEmptyField(String s) {
         return s.equals("");
     }
-
 
 }

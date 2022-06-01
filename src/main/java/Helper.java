@@ -39,4 +39,8 @@ public class Helper {
         panel.add(comboBox);
         return comboBox;
     }
+    public static void setBigFont(JLabel label,Color color,int size){
+        label.setForeground(color);
+        label.setFont(new Font(Constants.KIND_OF_FONT, Font.BOLD, size));
+    }
 }
