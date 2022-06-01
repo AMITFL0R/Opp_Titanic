@@ -4,8 +4,8 @@ public class Constants {
     public static final String TITLE="Titanic Passengers Data by AIUA";
 
     public static final String PATH_TO_DATA_FILE = "src/main/resources/titanic.csv";
-    public static final String STATISTICS_PATH_FILE="C:\\Users\\DELL\\OneDrive\\שולחן העבודה\\binari\\statistics.txt";
-    public static final String EXCEL_PATH_FILE="C:\\Users\\DELL\\OneDrive\\שולחן העבודה\\TitanicPassangers\\";
+    public static final String STATISTICS_PATH_FILE="C:\\Users\\User\\Desktop\\לימודים עדו\\שנה א\\סמסטר ב\\תכנות מונחה עצמים\\טיטאניק\\.txt";
+    public static final String EXCEL_PATH_FILE="C:\\Users\\User\\Desktop\\לימודים עדו\\שנה א\\סמסטר ב\\תכנות מונחה עצמים\\טיטאניק\\";
 
     public static final String COMMA_SPLIT=",",POINT_SPLIT="\\.",QUOT_SPLIT="\"";
     public static final String STATISTIC_BUTTON="Statistics file",SEARCH_BUTTON="Search";

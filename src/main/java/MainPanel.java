@@ -130,7 +130,7 @@ public class MainPanel extends JPanel {
     private void printFilters(List<Passenger> passengers) {
         List<Passenger> survived = passengers.stream().filter(Passenger::isSurvived).collect(Collectors.toList());
         Thread printResult = new Thread(() -> {
-            JLabel result = Helper.addLabel(this, "Total Row: " + passengers.size() + "(" + survived.size() + " survived" + "," + (passengers.size() - survived.size()) + " did not)",
+            JLabel result = Helper.addLabel(this, "Total Row: " + passengers.size() + " (" + survived.size() + " survived" + "," + (passengers.size() - survived.size()) + " did not)",
                     this.getWidth() / 2 - Constants.RESULT_PRINT_WIDTH / 2, this.getHeight() * 5 / 8, Constants.RESULT_PRINT_WIDTH, Constants.RESULT_PRINT_HEIGHT);
             Helper.setBigFont(result, Color.black, Constants.RESULT_FONT_SIZE);
             try {
@@ -173,9 +173,7 @@ public class MainPanel extends JPanel {
 
     private boolean isNumber() {
         try {
-            if (this.sibSp.getText().equals("") || this.parch.getText().equals("")) {
-                return true;
-            }
+
             if (Double.parseDouble(this.fare.get(Constants.MIN).getText()) < 0 || Double.parseDouble(this.fare.get(Constants.MAX).getText()) < 0 ||
                     Integer.parseInt(this.rangeId.get(Constants.MIN).getText()) < 0 || Integer.parseInt(this.rangeId.get(Constants.MAX).getText()) < 0 ||
                     Integer.parseInt(this.sibSp.getText()) < 0 || Integer.parseInt(this.parch.getText()) < 0) {
@@ -183,6 +181,9 @@ public class MainPanel extends JPanel {
                 return false;
             }
         } catch (NumberFormatException e) {
+            if (this.sibSp.getText().equals("") || this.parch.getText().equals("")) {
+                return true;
+            }
             printError(Constants.ERROR_NUMBER);
             return false;
         }
