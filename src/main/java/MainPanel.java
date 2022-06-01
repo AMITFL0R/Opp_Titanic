@@ -102,7 +102,8 @@ public class MainPanel extends JPanel {
         this.search = Helper.addButton(this, Constants.SEARCH_BUTTON, this.getWidth() - Constants.BUTTON_WIDTH - Constants.MARGIN_FROM_RIGHT / 2, this.getHeight() * 5 / 7, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
         this.search.addActionListener((e) -> {
             if (isNumber() && validIdOrFare()) {
-                this.passengerFilter = new PassengerFilter(this.passengers, this.topMenu, this.pClassComboBox.getSelectedIndex(),
+                this.passengerFilter = new PassengerFilter();
+                this.passengerFilter.filterAndWrite(this.passengers, this.topMenu, this.pClassComboBox.getSelectedIndex(),
                         this.rangeId.get(Constants.MIN).getText(), this.rangeId.get(Constants.MAX).getText(),
                         this.nameTextField.getText(), (String) this.sexComboBox.getSelectedItem(),
                         this.sibSp.getText(), this.parch.getText(), this.ticket.getText(),

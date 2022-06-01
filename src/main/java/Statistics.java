@@ -3,8 +3,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Statistics {
+    private PassengerFilter filter;
 
     public Statistics(List<Passenger> passengers) {
+        this.filter=new PassengerFilter();
         WriteToFile writeToFile = new WriteToFile();
         writeToFile.writeStatistics(survivedByClass(passengers) + "\n" + survivedBySex(passengers) + "\n" +
                 survivedByAges(passengers) + "\n" + survivedByFamily(passengers) + "\n" +
@@ -17,8 +19,8 @@ public class Statistics {
         for (int i = 1; i < Constants.PASSENGER_CLASS_OPTIONS.length; i++) {
             int finalI = i;
             text += "Class: " + i + "\n";
-            List<Passenger> passengers1 = passengers.stream().filter(passenger -> passenger.classSort(finalI)).collect(Collectors.toList());
-            text += survivedPercent(passengers1);
+            List<Passenger> filteredList = filter.byPClass(finalI,passengers);
+            text += survivedPercent(filteredList);
         }
         return text;
     }
@@ -28,8 +30,8 @@ public class Statistics {
         for (int i = 1; i < Constants.SEX_OPTION.length; i++) {
             int finalI = i;
             text += Constants.SEX_OPTION[i] + "--";
-            List<Passenger> passengers1 = passengers.stream().filter(passenger -> passenger.isSameSex(Constants.SEX_OPTION[finalI])).collect(Collectors.toList());
-            text += survivedPercent(passengers1);
+            List<Passenger> filteredList =filter.bySex(Constants.SEX_OPTION[finalI],passengers);
+            text += survivedPercent(filteredList);
         }
         return text;
     }
@@ -46,8 +48,8 @@ public class Statistics {
             }
             int finalI = i;
             int finalJ = j;
-            List<Passenger> passengers1 = passengers.stream().filter(passenger -> passenger.rangeAge(finalI, finalJ)).collect(Collectors.toList());
-            text += survivedPercent(passengers1);
+            List<Passenger> filteredList = passengers.stream().filter(passenger -> passenger.rangeAge(finalI, finalJ)).collect(Collectors.toList());
+            text += survivedPercent(filteredList);
 
         }
         return text;
@@ -62,8 +64,8 @@ public class Statistics {
             } else {
                 text += "person with at least one: \n";
             }
-            List<Passenger> passengers1 = passengers.stream().filter(passenger -> passenger.familyMember(finalI)).collect(Collectors.toList());
-            text += survivedPercent(passengers1);
+            List<Passenger> filteredList = passengers.stream().filter(passenger -> passenger.familyMember(finalI)).collect(Collectors.toList());
+            text += survivedPercent(filteredList);
         }
         return text;
     }
@@ -84,8 +86,8 @@ public class Statistics {
             }
             int finalI = i;
             int finalJ = j;
-            List<Passenger> passengers1 = passengers.stream().filter(passenger -> passenger.rangeFareStatistics(finalI, finalJ)).collect(Collectors.toList());
-            text += survivedPercent(passengers1);
+            List<Passenger> filteredList = passengers.stream().filter(passenger -> passenger.rangeFareStatistics(finalI, finalJ)).collect(Collectors.toList());
+            text += survivedPercent(filteredList);
         }
         return text;
     }
@@ -95,8 +97,8 @@ public class Statistics {
         for (int i = 1; i < Constants.EMBARKED_OPTION.length; i++) {
             int finalI = i;
             text += "Embarked " + Constants.EMBARKED_OPTION[i] + "\n";
-            List<Passenger> passengers1 = passengers.stream().filter(passenger -> passenger.embarkedSort(Constants.EMBARKED_OPTION[finalI])).collect(Collectors.toList());
-            text += survivedPercent(passengers1);
+            List<Passenger> filteredList = this.filter.byEmbarked(Constants.EMBARKED_OPTION[finalI],passengers);
+            text += survivedPercent(filteredList);
         }
         return text;
     }

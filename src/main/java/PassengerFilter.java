@@ -7,9 +7,10 @@ public class PassengerFilter {
 
     private List<Passenger> filterPassenger;
 
-    public PassengerFilter(List<Passenger> passengers, String topMenu, int pClass, String minId, String maxId, String name, String sex,
-                           String sibSp, String parch, String ticket, String minFare,
-                           String maxFare, String cabin, String embarked, int fileNumber) {
+
+    public void filterAndWrite(List<Passenger> passengers, String topMenu, int pClass, String minId, String maxId, String name, String sex,
+                               String sibSp, String parch, String ticket, String minFare,
+                               String maxFare, String cabin, String embarked, int fileNumber){
 
         this.filterPassenger = byPClass(pClass, passengers);
         this.filterPassenger = byId(minId, maxId, this.filterPassenger);
@@ -28,6 +29,7 @@ public class PassengerFilter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public List<Passenger> getFilterPassenger() {
